@@ -14,14 +14,42 @@ public class ShoppingAppDriver {
 			if (isLoggedIn == false) {
 				printLoginMenu();
 				userChoice = input.nextInt();
-				switch (userChoice) {
-					case 1:
-						
 
+				switch (userChoice) {
+				case 1:
+
+					break;
+				case 2:
+
+					break;
+				case 3:
+
+					break;
+				case 4:
+
+					break;
+				case 5:
+					break;
+				default:
+					break;
+				}
+			}
+
+			else if (isLoggedIn == true) {
+				printShoppingMenu();
+				userChoice = input.nextInt();
+
+				switch (userChoice) {
+				case 1:
+
+					break;
+
+				default:
+					break;
 				}
 			}
 		}
-		
+
 		input.close();
 	}
 
@@ -35,8 +63,8 @@ public class ShoppingAppDriver {
 		System.out.println("|\t5. Exit\t\t|");
 		System.out.println("+========================================+");
 	}
-	
+
 	public static void printShoppingMenu() {
-		
+
 	}
 }
