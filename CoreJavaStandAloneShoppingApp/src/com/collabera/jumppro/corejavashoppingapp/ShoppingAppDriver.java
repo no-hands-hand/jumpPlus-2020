@@ -5,9 +5,9 @@ import java.sql.*;
 
 public class ShoppingAppDriver {
 	
-	private static String myConnString = "jdbc:mysql://localhost:3306/ecommerce_java";
-	private static String userName = "jdbc";
-	private static String password = "password";
+	private static String myConnString = "jdbc:mysql://127.0.0.1:3306/ecommerce_java";
+	private static String userName = "root";
+	private static String password = "root";
 	//private Connection myConn = null;
 //	private Statement myStat = null;
 //	private ResultSet rs = null;
@@ -20,6 +20,8 @@ public class ShoppingAppDriver {
 		int userChoice = 0;
 
 		boolean isLoggedIn = false;
+		Store store;
+		//Store store = new Store();
 
 		while (userChoice != 5) {
 			if (isLoggedIn == false) {
@@ -34,13 +36,14 @@ public class ShoppingAppDriver {
 					}
 					break;
 				case 2:
-
+					store = new Store();
+					isLoggedIn = login(store);
 					break;
 				case 3:
-
+					System.out.println("Please login to buy an item!");
 					break;
 				case 4:
-
+					System.out.println("Please login to return an item!");
 					break;
 				case 5:
 					break;
@@ -50,6 +53,7 @@ public class ShoppingAppDriver {
 			}
 
 			else if (isLoggedIn == true) {
+				
 				printShoppingMenu();
 				userChoice = input.nextInt();
 
@@ -62,6 +66,8 @@ public class ShoppingAppDriver {
 					break;
 				}
 			}
+			
+			System.out.println("Goodbye!");
 		}
 
 		input.close();
@@ -82,7 +88,7 @@ public class ShoppingAppDriver {
 		
 	}
 	
-	public static int registerUser() {
+	public static int registerUser() throws SQLException {
 		Scanner input = new Scanner(System.in);
 		Connection myConn = null;
 		PreparedStatement ps = null;
@@ -95,7 +101,7 @@ public class ShoppingAppDriver {
 		System.out.print("\nPlease enter your email: ");
 		String email = input.nextLine();
 		System.out.print("\nPlease enter your password: ");
-		String password = input.nextLine();
+		String userPass = input.nextLine();
 		System.out.print("\nPlease enter your starting credit in xx.xx format: ");
 		double credit = input.nextDouble();
 		
@@ -107,7 +113,7 @@ public class ShoppingAppDriver {
 			ps.setString(1, fName);
 			ps.setString(2, lName);
 			ps.setString(3, email);
-			ps.setString(4, password);
+			ps.setString(4, userPass);
 			ps.setDouble(5, credit);
 			
 			status = ps.executeUpdate();
@@ -115,10 +121,40 @@ public class ShoppingAppDriver {
 			System.out.println("Rows updated (if 0, error occurred): " + status);
 		} catch (Exception e){
 			System.out.println(e.getMessage());
+		} finally {
+			if(myConn != null) {
+				myConn.close();
+			}
+			if (ps != null) {
+				ps.close();
+			}
 		}
 		
 		
 		
 		return status;
+	}
+	
+	public static boolean login(Store store) {
+		boolean isValidUser = false;
+		Scanner input = new Scanner(System.in);
+		System.out.println("--Please log in--");
+		System.out.print("\nEmail: ");
+		String email = input.nextLine();
+		System.out.print("\nPassword: ");
+		String pass = input.nextLine();
+		
+		for (User u : store.getUsers()) {
+			if ((email.equalsIgnoreCase(u.getEmail())) && (pass.equalsIgnoreCase(u.getPassword()))) {
+				isValidUser = true;
+				System.out.println("Login Success! Welcome " + u.getFirstName());
+				break;
+			}
+		}
+		
+		if (isValidUser == false) {
+			System.out.println("No user matching that email and password combination, please try again or register to create an account!");
+		}
+		return isValidUser;
 	}
 }

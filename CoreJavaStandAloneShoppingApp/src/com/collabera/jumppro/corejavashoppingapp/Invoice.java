@@ -2,31 +2,27 @@ package com.collabera.jumppro.corejavashoppingapp;
 
 import java.sql.Date;
 import java.util.List;
-import java.util.Random;
 
 public class Invoice {
 	
-	User customer;
+	int userId;
 	int invoiceId;
 	Date invoiceDate;
 	
 	List<Item> itemList;
 	double totalCost;
 	
-	public Invoice(User customer, List<Item> itemList) {
-		
-	}
 	
-	public User getCustomer() {
-		return customer;
+	public int getUserId() {
+		return userId;
 	}
-	public void setCustomer(User customer) {
-		this.customer = customer;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public int getInvoiceNum() {
+	public int getInvoiceId() {
 		return invoiceId;
 	}
-	public void setInvoiceNum(int invoiceId) {
+	public void setInvoiceId(int invoiceId) {
 		this.invoiceId = invoiceId;
 	}
 	public Date getInvoiceDate() {
