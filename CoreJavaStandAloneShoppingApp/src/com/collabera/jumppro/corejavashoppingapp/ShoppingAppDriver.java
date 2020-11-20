@@ -20,7 +20,8 @@ public class ShoppingAppDriver {
 		int userChoice = 0;
 
 		boolean isLoggedIn = false;
-		Store store;
+		User loggedInUser = null;
+		Store store = null;
 		//Store store = new Store();
 
 		while (userChoice != 5) {
@@ -37,7 +38,10 @@ public class ShoppingAppDriver {
 					break;
 				case 2:
 					store = new Store();
-					isLoggedIn = login(store);
+					loggedInUser = login(store);
+					if (loggedInUser != null) {
+						isLoggedIn = true;
+					}
 					break;
 				case 3:
 					System.out.println("Please login to buy an item!");
@@ -59,17 +63,25 @@ public class ShoppingAppDriver {
 
 				switch (userChoice) {
 				case 1:
-
+					Store.printItemList(store);
 					break;
-
+				case 2:
+					System.out.println("Your credit: " + loggedInUser.getCredit());
+					break;
+				case 3:
+					
+					break;
+				case 4:
+					
+					break; 
 				default:
 					break;
 				}
 			}
 			
-			System.out.println("Goodbye!");
+			
 		}
-
+		System.out.println("Goodbye!");
 		input.close();
 	}
 
@@ -85,7 +97,14 @@ public class ShoppingAppDriver {
 	}
 
 	public static void printShoppingMenu() {
-		
+		System.out.println("\tStandalone eCommerce App");
+		System.out.println("+========================================+");
+		System.out.println("|\t1. View Item List\t\t|");
+		System.out.println("|\t2. Check your balance!\t\t|");
+		System.out.println("|\t3. Buy an Item\t\t|");
+		System.out.println("|\t4. Replace an Item\t\t|");
+		System.out.println("|\t5. Exit\t\t|");
+		System.out.println("+========================================+");
 	}
 	
 	public static int registerUser() throws SQLException {
@@ -135,8 +154,9 @@ public class ShoppingAppDriver {
 		return status;
 	}
 	
-	public static boolean login(Store store) {
+	public static User login(Store store) {
 		boolean isValidUser = false;
+		User foundUser = null;
 		Scanner input = new Scanner(System.in);
 		System.out.println("--Please log in--");
 		System.out.print("\nEmail: ");
@@ -147,6 +167,7 @@ public class ShoppingAppDriver {
 		for (User u : store.getUsers()) {
 			if ((email.equalsIgnoreCase(u.getEmail())) && (pass.equalsIgnoreCase(u.getPassword()))) {
 				isValidUser = true;
+				foundUser = u;
 				System.out.println("Login Success! Welcome " + u.getFirstName());
 				break;
 			}
@@ -155,6 +176,6 @@ public class ShoppingAppDriver {
 		if (isValidUser == false) {
 			System.out.println("No user matching that email and password combination, please try again or register to create an account!");
 		}
-		return isValidUser;
+		return foundUser;
 	}
 }

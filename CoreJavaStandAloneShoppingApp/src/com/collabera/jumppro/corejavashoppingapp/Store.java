@@ -199,4 +199,29 @@ public class Store {
 		
 		return itemsByInvoice;
 	}
+	
+	public static void printItemList(Store store) {
+		String format = "%-15s";
+		if (store.getInventory().isEmpty() || (store.getInventory() == null)) {
+			System.out.println("Inventory is empty or could not be retrieved!");
+		} else {
+			System.out.println("\tStandalone eCommerce App");
+			System.out.println("+========================================+");
+			System.out.printf(format, "  Item Name");
+			System.out.printf(format, "Item Code");
+			System.out.printf(format, "Price");
+			System.out.printf(format, "Quantity");
+			System.out.println();
+			for (int i = 0; i < store.getInventory().size(); i++) {
+				System.out.printf(format, "| " + (i+1) + ". " + store.getInventory().get(i).getItemName());
+				System.out.printf(format, store.getInventory().get(i).getItemCode());
+				System.out.printf(format, store.getInventory().get(i).getPrice());
+				System.out.printf(format, store.getInventory().get(i).getQuantity());
+				System.out.println("|");
+			}
+			System.out.println("+========================================+");
+		}
+		
+		
+	}
 }
